@@ -6,6 +6,7 @@ Simple class to log in on webpage and send requests.
 Example
 ----------------
 
+```php
 <?php
 
 use \CurlLogin\CurlLogin;
@@ -28,6 +29,7 @@ echo $curlLogin->sendRequest($url); // returns content located on url
 
 
 ?>
+```
 
 Warning
 ----------------
