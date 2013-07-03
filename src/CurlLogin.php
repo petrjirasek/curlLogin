@@ -1,4 +1,11 @@
 <?php
+/**
+ * This file contains CurlLogin class.
+ *
+ * @license    MIT
+ * @link       https://github.com/Jirda/curlLogin
+ * @author     Petr Jirasek
+ */
 
 namespace CurlLogin;
 

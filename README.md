@@ -34,3 +34,7 @@ echo $curlLogin->sendRequest($url); // returns content located on url
 Warning
 ----------------
 Standard input name for login and password are email and password. If you want to change them, you can do it by calling setLoginInputName and setPasswordInputName.
+
+License
+----------------
+MIT License
