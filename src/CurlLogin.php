@@ -68,11 +68,18 @@ class CurlLogin {
         if ($this->referer)
 	        curl_setopt($this->ch, CURLOPT_REFERER, $this->referer);
 		
-		//in an effort to handle sites that do not want us to login via scripts like this one we will load  page oncthee and look for things like: csrfmiddlewaretoken
+		//in an effort to handle sites that do not want us to login via scripts like this one we will load the page once and look for things like: csrfmiddlewaretoken
 		$intialPage = curl_exec($this->ch);		
 		// try to find the actual login form
-		if (!preg_match('/<form method="(POST|GET)"(.|\n)*?<\/form>/is', $intialPage, $form)) {
-            throw new NotLoginException("Unable to find login form. Verify login url.");
+		if (!preg_match('/<form method="(POST|GET)"(.|\n)*?<\/form>/is', $intialPage, $form)) 
+		{
+			//unable to find login form. Do it old way...
+			curl_setopt($this->ch, CURLOPT_POSTFIELDS, $this->prepareParameters($login, $password, null));
+			curl_setopt($this->ch, CURLOPT_POST, 1);
+			
+			//at this point we should try to validate that we are logged in somehow, but for now we will assume.
+			$this->isLoggedIn = true;
+			return curl_exec ($this->ch);			
 		}
 		//we only want our first form. shouldn't ever be more than 1.
 		$form = $form[0];
@@ -99,7 +106,6 @@ class CurlLogin {
 		}
 		//update to use our post URL.
         curl_setopt($this->ch, CURLOPT_URL, $post_url);
-		echo $post_url . "\n";
 		
 		//update the referer to be our last url, since we are trying to make it think we are logging in
         curl_setopt($this->ch, CURLOPT_REFERER, $this->loginUrl);
