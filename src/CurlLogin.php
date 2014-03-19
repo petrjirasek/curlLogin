@@ -71,7 +71,7 @@ class CurlLogin {
 		//in an effort to handle sites that do not want us to login via scripts like this one we will load the page once and look for things like: csrfmiddlewaretoken
 		$intialPage = curl_exec($this->ch);		
 		// try to find the actual login form
-		if (!preg_match('/<form method="(POST|GET)"(.|\n)*?<\/form>/is', $intialPage, $form)) 
+		if (!preg_match('/<form[^\n]*?method="(POST|GET)"(.|\n)*?<\/form>/is', $intialPage, $form)) 
 		{
 			//unable to find login form. Do it old way...
 			curl_setopt($this->ch, CURLOPT_POSTFIELDS, $this->prepareParameters($login, $password, null));
